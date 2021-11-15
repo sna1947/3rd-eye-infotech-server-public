@@ -4,7 +4,8 @@ const ObjectId = require('mongodb').ObjectId;
 require('dotenv').config()
 const app = express();
 const cors = require('cors');
-const port = 5000; // or process.env.PORT || 3000; 
+const port = process.env.PORT || 5000; 
+// const port = 5000; // or process.env.PORT || 3000; 
 
 //MIDDLEWARE
 app.use(cors());
@@ -108,7 +109,7 @@ async function run() {
       res.json({admin: isAdmin});
     }); 
     
-    // server to allorder(seen on dasboard)======
+    // server to allorder(seen on dasboard by email id)======
     app.get('/orders', async (req,res)=>{
      const email = req.query.email;
      const query = {email: email};
@@ -116,9 +117,11 @@ async function run() {
      const orders = await cursor.toArray();
      res.json(orders)
     });
-
-    app.get('/products/:id', async (req,res)=>{
- 
+// total order 
+    app.get('/orders', async (req,res)=>{
+      const cursor = ordersCollection.find({});
+      const orders = await cursor.toArray();
+      res.send(orders)
     });
     app.put('/products/:id', async (req,res)=>{
  
