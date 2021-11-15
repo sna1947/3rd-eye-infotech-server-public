@@ -123,8 +123,13 @@ async function run() {
       const orders = await cursor.toArray();
       res.send(orders)
     });
-    app.put('/products/:id', async (req,res)=>{
- 
+
+    // Delete orders====================
+    app.delete('/orders/:id', async (req,res)=>{
+      const id = req.params.id;
+      const query = {id: ObjectId(id)};
+      const result = await ordersCollection(query);
+      res.json(result);
     });
     app.delete('/products/:id', async (req,res)=>{
  
